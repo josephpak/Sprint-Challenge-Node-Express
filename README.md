@@ -24,15 +24,23 @@ In this challenge, create a web API around the following resources: `Projects` a
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [x] Mention two parts of Express that you learned about this week.
+// Two parts of Express that we learned about this week include the following: 
+// 1. Express-driven route handling is one of the key topics we discussed and learned about this week. Underneath the hood, route handlers are just middleware functions that that in a request and return a response. Asynchronous JavaScript came in handy when handling these requests 
+// 2. We also learned about other custom and built-in middleware that can be useful when using Express. Some of the custom middleware examples were authentication handler functions and functions that modify requests before they reach route handlers
 
-- [ ] Describe Middleware?
+- [x] Describe Middleware?
+// Middleware is a sequence of functions that execute in sequential order (think a Spotify play queue). In the context of Express, we used middleware this week to handle changes to requests and responses before they are finished
 
-- [ ] Describe a Resource?
+- [x] Describe a Resource?
+// Resources were described this week as the "nouns" of client-server communication. When a client needs information, they are likely trying to answer some sort of question or request - API endpoints provide resources to satisfy the client's needs for information. 
 
-- [ ] What can the API return to help clients know if a request was successful?
+- [x] What can the API return to help clients know if a request was successful?
+// An API can return status codes and messages to help clients to know if a request was successful. Something that was talked about a lot this week was how good error handling and messaging can be truly delightful for client-side developers or anyone that is accessing an API. 
 
-- [ ] How can we partition our application into sub-applications?
+- [x] How can we partition our application into sub-applications?
+// We can partition our application into sub-applications by carefully laying out a system of routes and endpoints on the server-side. This type of modular setup on the back-end empowers our client-side peers to be able to access resources in a modular, focused manner which can help them in turn create modular components and sub-applications.
+
 
 ## Project Setup
 
