@@ -30,31 +30,52 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.post('/', async (req,res) => {
-    try {
-        // Sample validation for the following --
-        // Make sure project_id is required and that the project exists
-        // description is only allowed to be 128 characters long
-        // description and notes are also required
-        const newAction = req.body;
-        const descriptionLength = req.body.description.length
-        const validProject = await Projects.get(req.body.project_id)
-        if (!newAction.hasOwnProperty('project_id') || !newAction.hasOwnProperty('description') || !newAction.hasOwnProperty('notes')) {
-            res.status(400).json({
-                message: 'Please include a project_id, description, and notes'
-            })
-        } else if (!validProject) {
+function propertyChecker(req,res,next) {
+    // Sample validation for the following --
+    // Make sure project_id is required and that the project exists
+    // description is only allowed to be 128 characters long
+    // description and notes are also required
+    const newAction = req.body;
+    if (!newAction.hasOwnProperty('project_id') || !newAction.hasOwnProperty('description') || !newAction.hasOwnProperty('notes')) {
+        res.status(400).json({
+            message: 'Please include a project_id, description, and notes'
+        }) 
+    } else {
+        next()
+    }
+}
+
+async function projectChecker(req,res,next) {
+    const newAction = req.body;
+    if (newAction.hasOwnProperty('project_id')) {
+        try {
+            const validProject = await Projects.get(req.body.project_id)
+            next()
+        } catch {
             res.status(400).json({
                 message: 'The project you are trying to add to does not exist'
             })
-        } else if (descriptionLength > 128){
-            res.status(400).json({
-                message: 'Your description is too long - please reduce to 128 characters or lower'
-            })
-        } else {
-            const action = await Actions.insert(newAction)
-            res.status(201).json(action)
-        }
+        }   
+    }
+}
+
+function descriptionChecker(req,res,next) {
+    const newAction = req.body;
+    const descriptionLength = req.body.description.length;
+    if (descriptionLength > 128){
+        res.status(400).json({
+            message: 'Your description is too long - please reduce to 128 characters or lower'
+        }) 
+    } else {
+        next()
+    }
+}
+
+router.post('/', propertyChecker, projectChecker, descriptionChecker, async (req,res,next) => {
+    try {
+        const newAction = req.body;
+        const action = await Actions.insert(newAction)
+        res.status(201).json(action)
     } catch {
         res.status(500).json({
             message: 'Error creating action'
@@ -76,7 +97,7 @@ router.delete('/:id', async (req,res) => {
     }
 })
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', propertyChecker, projectChecker, descriptionChecker, async (req,res) => {
     try {
         const changes = req.body
         const actionId = req.params.id
