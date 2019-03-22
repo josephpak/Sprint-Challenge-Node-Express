@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 })
 
 function propertyChecker(req,res,next) {
-    // Make sure that project_id description and notes are included in request
+    // Make sure that name and description are included in request
     const newProject = req.body;
     if (!newProject.hasOwnProperty('name') || !newProject.hasOwnProperty('description')) {
         res.status(400).json({
