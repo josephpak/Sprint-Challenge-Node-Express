@@ -31,10 +31,7 @@ router.get('/:id', async (req, res) => {
 })
 
 function propertyChecker(req,res,next) {
-    // Sample validation for the following --
-    // Make sure project_id is required and that the project exists
-    // description is only allowed to be 128 characters long
-    // description and notes are also required
+    // MAke sure that project_id description and notes are included in request
     const newAction = req.body;
     if (!newAction.hasOwnProperty('project_id') || !newAction.hasOwnProperty('description') || !newAction.hasOwnProperty('notes')) {
         res.status(400).json({
@@ -46,6 +43,7 @@ function propertyChecker(req,res,next) {
 }
 
 async function projectChecker(req,res,next) {
+    // Make sure that the project exists
     const newAction = req.body;
     if (newAction.hasOwnProperty('project_id')) {
         try {
@@ -60,6 +58,7 @@ async function projectChecker(req,res,next) {
 }
 
 function descriptionChecker(req,res,next) {
+    // Make sure description is only allowed to be 128 characters long
     const newAction = req.body;
     const descriptionLength = req.body.description.length;
     if (descriptionLength > 128){
