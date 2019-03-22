@@ -66,4 +66,16 @@ router.put('/:id', async (req,res) => {
     }
 })
 
+router.get('/:id/actions', async (req,res) => {
+    try {
+        const projectId = req.params.id
+        const projectActions = await Projects.getProjectActions(projectId)
+        res.status(200).json(projectActions)
+    } catch {
+        res.status(500).json({
+            message: 'Error getting actions for this project'
+        })
+    }
+})
+
 module.exports = router;

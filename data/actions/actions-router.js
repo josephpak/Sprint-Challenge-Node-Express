@@ -79,7 +79,7 @@ router.delete('/:id', async (req,res) => {
 router.put('/:id', async (req,res) => {
     try {
         const changes = req.body
-        const actionId = res.params.id
+        const actionId = req.params.id
         const action = await Actions.update(actionId, changes)
         res.status(200).json(action)
     } catch {
