@@ -62,4 +62,31 @@ router.post('/', async (req,res) => {
     }
 })
 
+router.delete('/:id', async (req,res) => {
+    try {
+        const actionId = req.params.id
+        const response = await Actions.remove(actionId)
+        res.status(200).json({
+            message: 'Successfully deleted action'
+        })
+    } catch {
+        res.status(500).json({
+            message: 'Error deleting action'
+        })
+    }
+})
+
+router.put('/:id', async (req,res) => {
+    try {
+        const changes = req.body
+        const actionId = res.params.id
+        const action = await Actions.update(actionId, changes)
+        res.status(200).json(action)
+    } catch {
+        res.status(500).json({
+            message: 'Error updating action'
+        })
+    }
+})
+
 module.exports = router;
