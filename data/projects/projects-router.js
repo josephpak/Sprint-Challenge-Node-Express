@@ -27,4 +27,16 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.post('/', async (req,res) => {
+    try {
+        const newProject = req.body
+        const project = await Projects.insert(newProject)
+        res.status(201).json(project)
+    } catch {
+        res.status(500).json({
+            message: 'Error creating a project'
+        })
+    }
+})
+
 module.exports = router;
