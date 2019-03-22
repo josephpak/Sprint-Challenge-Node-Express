@@ -15,4 +15,17 @@ router.get('/', async (req, res) => {
     }   
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const actionId = req.params.id;
+        const action = await Actions.get(actionId);
+        res.status(200).json(action)
+
+    } catch {
+        res.status(500).json({
+            message: 'Error retrieving action'
+        })
+    }
+})
+
 module.exports = router;
