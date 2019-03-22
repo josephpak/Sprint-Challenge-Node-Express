@@ -27,7 +27,19 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.post('/', async (req,res) => {
+function propertyChecker(req,res,next) {
+    // Make sure that project_id description and notes are included in request
+    const newProject = req.body;
+    if (!newProject.hasOwnProperty('name') || !newProject.hasOwnProperty('description')) {
+        res.status(400).json({
+            message: 'Please include a name and description'
+        }) 
+    } else {
+        next()
+    }
+}
+
+router.post('/', propertyChecker, async (req,res) => {
     try {
         const newProject = req.body
         const project = await Projects.insert(newProject)
@@ -53,7 +65,7 @@ router.delete('/:id', async (req,res) => {
     }
 })
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', propertyChecker, async (req,res) => {
     try {
         const changes = req.body
         const projectId = req.params.id
